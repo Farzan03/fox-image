@@ -2,6 +2,7 @@ import requests
 from PIL import Image
 import json
 import re
+import os
 
 # api link
 url = "https://randomfox.ca/floof/"
@@ -24,10 +25,14 @@ regex = regex.group(1)
 # http code (200 = success)
 print(req_pic.status_code)
 
-# download and save the image (optimized version)
-with open(f"{regex}" , 'wb') as img:
+# Set the project directory
+project_directory = os.path.dirname(os.path.abspath(__file__))
+
+# download and save the image in the project directory
+image_path = os.path.join(project_directory, regex)
+with open(image_path, 'wb') as img:
     img.write(req_pic.content)
 
 # show the image
-img  = Image.open(f"{regex}")
+img = Image.open(image_path)
 img.show()
